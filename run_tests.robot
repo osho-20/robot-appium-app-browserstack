@@ -39,7 +39,7 @@ Execute BrowserStack Robot Tests
     Run    chmod +x ${SCRIPT_PATH}
     
     # Execute the bash script with exported environment variables using shell
-    ${command}=    Set Variable    export BROWSERSTACK_USERNAME="${username}" && export BROWSERSTACK_ACCESS_KEY="${key}" && export BROWSERSTACK_BUILD_RUN_IDENTIFIER="${build_id}" && bash ${SCRIPT_PATH}
+    ${command}=    Set Variable    export BROWSERSTACK_USERNAME="${username}" && export BROWSERSTACK_ACCESS_KEY="${key}" && export BROWSERSTACK_BUILD_IDENTIFIER="${build_id}" && bash ${SCRIPT_PATH}
     ${result}=    Run Process    bash    -c    ${command}
     ...    cwd=${CURDIR}
     ...    timeout=${TIMEOUT}
