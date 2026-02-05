@@ -64,17 +64,17 @@ pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt --verbose
 echo "dependencies installed"
 
-cd ./Tests
+cd ./robot
 
-if [ ! -d "android" ]; then
+if [ ! -d "tests" ]; then
     echo "ERROR: android directory not found"
     exit 1
 fi
 
-cd android
+cd tests
 echo "running pytest for SingleTestAndroid.robot"
 rm -rf log logs
-browserstack-sdk robot ./SingleTestAndroid.robot
+browserstack-sdk robot ./test-1.robot
 TEST_EXIT_CODE=$?
 
 echo "pytest testing completed with exit code: $TEST_EXIT_CODE"
