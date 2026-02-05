@@ -10,7 +10,7 @@ ${TIMEOUT}        30 minutes
 ${BROWSERSTACK_USERNAME}    ${EMPTY}
 ${BROWSERSTACK_ACCESS_KEY}    ${EMPTY}
 
-*** Test Cases ***
+*** Tasks ***
 Execute BrowserStack Robot Tests
     [Documentation]    Run the bash script to execute Robot tests on BrowserStack
     [Tags]    browserstack    android    Robot
