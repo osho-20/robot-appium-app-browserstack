@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation    Robot Framework wrapper for BrowserStack Pytest execution
+Documentation    Robot Framework wrapper for BrowserStack Robot execution
 Library          Process
 Library          OperatingSystem
 
@@ -11,11 +11,11 @@ ${BROWSERSTACK_USERNAME}    ${EMPTY}
 ${BROWSERSTACK_ACCESS_KEY}    ${EMPTY}
 
 *** Test Cases ***
-Execute BrowserStack Pytest Tests
-    [Documentation]    Run the bash script to execute pytest tests on BrowserStack
-    [Tags]    browserstack    android    pytest
+Execute BrowserStack Robot Tests
+    [Documentation]    Run the bash script to execute Robot tests on BrowserStack
+    [Tags]    browserstack    android    Robot
     
-    Log    Starting BrowserStack pytest execution    console=True
+    Log    Starting BrowserStack Robot execution    console=True
     Log    Working directory: ${CURDIR}    console=True
     
     # Try to get credentials from Robot variables first, then fallback to environment variables
@@ -53,9 +53,9 @@ Execute BrowserStack Pytest Tests
     Log    Exit Code: ${result.rc}    console=True
     
     # Check exit code - fail if non-zero
-    Run Keyword If    ${result.rc} != 0    Fail    Pytest execution failed with exit code ${result.rc}. Check logs for details.
+    Run Keyword If    ${result.rc} != 0    Fail    Robot execution failed with exit code ${result.rc}. Check logs for details.
     
-    Log    BrowserStack pytest execution completed successfully    console=True
+    Log    BrowserStack Robot execution completed successfully    console=True
 
 *** Keywords ***
 # Add custom keywords here if needed
