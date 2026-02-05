@@ -57,7 +57,11 @@ if [ ! -f "requirements.txt" ]; then
     exit 1
 fi
 
-pip install -r requirements.txt
+# Upgrade pip to ensure platform markers work correctly
+pip install --upgrade pip setuptools wheel
+
+# Install dependencies with verbose output for debugging
+pip install -r requirements.txt --verbose
 echo "dependencies installed"
 
 cd ./Tests
