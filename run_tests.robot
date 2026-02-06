@@ -38,7 +38,7 @@ Execute BrowserStack Robot Tests
     Set Environment Variable    BROWSERSTACK_USERNAME    ${username}
     Set Environment Variable    BROWSERSTACK_ACCESS_KEY    ${key}
     Set Environment Variable    BROWSERSTACK_BUILD_IDENTIFIER    ${build_id}
-        
+    
     Log    Installing dependencies (pip install -r requirements.txt)    console=True
     ${install_result}=    Run Process    python    -m    pip    install    -r    requirements.txt
     ...    cwd=${CURDIR}
@@ -52,7 +52,8 @@ Execute BrowserStack Robot Tests
     ...    cwd=${CURDIR}/robot
     ...    timeout=${TIMEOUT}
     ...    stdout=${CURDIR}/robot_stdout.log
-    ...    stderr=${CURDIR}/robot_stderr.log  
+    ...    stderr=${CURDIR}/robot_stderr.log
+    
     # Log output for debugging
     Log    STDOUT:\n${result.stdout}    console=True
     Log    STDERR:\n${result.stderr}    console=True
