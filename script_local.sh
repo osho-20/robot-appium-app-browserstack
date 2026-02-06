@@ -74,7 +74,7 @@ fi
 cd tests
 echo "running pytest for SingleTestAndroid.robot"
 rm -rf log logs
-browserstack-sdk robot ./test-1.robot
+browserstack-sdk robot ./
 TEST_EXIT_CODE=$?
 
 echo "pytest testing completed with exit code: $TEST_EXIT_CODE"
