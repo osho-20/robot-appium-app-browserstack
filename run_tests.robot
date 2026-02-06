@@ -47,8 +47,8 @@ Execute BrowserStack Robot Tests
     ...    stderr=${CURDIR}/pip_stderr.log
     Run Keyword If    ${install_result.rc} != 0    Fail    Dependency install failed with exit code ${install_result.rc}. Check pip_stdout.log / pip_stderr.log.
 
-    Log    Running BrowserStack SDK: browserstack-sdk robot ./SingleTestAndroid.robot    console=True
-    ${result}=    Run Process    browserstack-sdk    robot    ./SingleTestAndroid.robot
+    Log    Running BrowserStack SDK: browserstack-sdk robot ./    console=True
+    ${result}=    Run Process    browserstack-sdk    robot    ./
     ...    cwd=${CURDIR}/Tests/android
     ...    timeout=${TIMEOUT}
     ...    stdout=${CURDIR}/robot_stdout.log
