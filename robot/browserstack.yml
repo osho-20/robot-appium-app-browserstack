@@ -1,22 +1,9 @@
-userName: username
-accessKey: accesskey
-projectName: testing-copado-robot
-# Set `buildName` as the name of the job / testsuite being run
-buildName: testing-copado-robot
+userName: username # user your creds
+accessKey: accesskey # user your creds
+projectName: Sample browserstack
+buildName: Sample browserstack build
 buildIdentifier: '#${BUILD_NUMBER}' 
 source: 'robot:appium-sample-sdk:v1.0'
-# platforms:
-#   - deviceName: Samsung Galaxy S22 Ultra
-#     osVersion: 12.0
-#     platformName: android
-#   - deviceName: Samsung Galaxy S21
-#     osVersion: 11.0
-#     platformName: android
-#   - deviceName: Google Pixel 6 Pro
-#     osVersion: 12.0
-#     platformName: android
-parallelsPerPlatform: 2
-browserstackLocal: true 
 debug: false 
 networkLogs: false 
 consoleLogs: errors 
