@@ -4,7 +4,6 @@ Library          Process
 Library          OperatingSystem
 
 *** Variables ***
-${SCRIPT_PATH}    ${CURDIR}/script.sh
 ${TIMEOUT}        30 minutes
 # These can be overridden via command line: robot -v BROWSERSTACK_USERNAME:value -v BROWSERSTACK_ACCESS_KEY:value
 ${BROWSERSTACK_USERNAME}    ${EMPTY}
@@ -34,19 +33,26 @@ Execute BrowserStack Robot Tests
     ${random}=    Evaluate    __import__('random').randint(1000, 9999)
     ${build_id}=    Set Variable    build_${timestamp}_${random}
     Log    Build Identifier: ${build_id}    console=True
-    
-    # Ensure script has execute permissions
-    Run    chmod +x ${SCRIPT_PATH}
-    
-    # Execute the bash script with exported environment variables using shell
-    ${command}=    Set Variable    export BROWSERSTACK_USERNAME="${username}" && export BROWSERSTACK_ACCESS_KEY="${key}" && export BROWSERSTACK_BUILD_IDENTIFIER="${build_id}" && bash ${SCRIPT_PATH}
-    ${result}=    Run Process    bash    -c    ${command}
+
+    # Make env vars available to all subsequent Run Process calls
+    Set Environment Variable    BROWSERSTACK_USERNAME    ${username}
+    Set Environment Variable    BROWSERSTACK_ACCESS_KEY    ${key}
+    Set Environment Variable    BROWSERSTACK_BUILD_IDENTIFIER    ${build_id}
+        
+    Log    Installing dependencies (pip install -r requirements.txt)    console=True
+    ${install_result}=    Run Process    python    -m    pip    install    -r    requirements.txt
     ...    cwd=${CURDIR}
     ...    timeout=${TIMEOUT}
+    ...    stdout=${CURDIR}/pip_stdout.log
+    ...    stderr=${CURDIR}/pip_stderr.log
+    Run Keyword If    ${install_result.rc} != 0    Fail    Dependency install failed with exit code ${install_result.rc}. Check pip_stdout.log / pip_stderr.log.
+
+    Log    Running BrowserStack SDK: browserstack-sdk robot ./android/    console=True
+    ${result}=    Run Process    browserstack-sdk    robot    ./android/
+    ...    cwd=${CURDIR}/Tests/
+    ...    timeout=${TIMEOUT}
     ...    stdout=${CURDIR}/robot_stdout.log
-    ...    stderr=${CURDIR}/robot_stderr.log
-    ...    shell=True
-    
+    ...    stderr=${CURDIR}/robot_stderr.log  
     # Log output for debugging
     Log    STDOUT:\n${result.stdout}    console=True
     Log    STDERR:\n${result.stderr}    console=True

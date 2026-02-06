@@ -4,7 +4,6 @@ Library          Process
 Library          OperatingSystem
 
 *** Variables ***
-${SCRIPT_PATH}    ${CURDIR}/script_local.sh
 ${TIMEOUT}        30 minutes
 # These can be overridden via command line: robot -v BROWSERSTACK_USERNAME:value -v BROWSERSTACK_ACCESS_KEY:value
 ${BROWSERSTACK_USERNAME}    ${EMPTY}
@@ -39,9 +38,6 @@ Execute BrowserStack Robot Local Tests
     Set Environment Variable    BROWSERSTACK_USERNAME    ${username}
     Set Environment Variable    BROWSERSTACK_ACCESS_KEY    ${key}
     Set Environment Variable    BROWSERSTACK_BUILD_IDENTIFIER    ${build_id}
-    
-    # Ensure script has execute permissions
-    Run    chmod +x ${SCRIPT_PATH}
     
     Log    Installing dependencies (pip install -r requirements.txt)    console=True
     ${install_result}=    Run Process    python    -m    pip    install    -r    requirements.txt
