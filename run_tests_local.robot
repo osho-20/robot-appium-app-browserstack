@@ -38,14 +38,15 @@ Execute BrowserStack Robot Local Tests
     # Ensure script has execute permissions
     Run    chmod +x ${SCRIPT_PATH}
     
-    # Execute the bash script with exported environment variables using shell
-    ${command}=    Set Variable    export BROWSERSTACK_USERNAME="${username}" && export BROWSERSTACK_ACCESS_KEY="${key}" && export BROWSERSTACK_BUILD_IDENTIFIER="${build_id}" && bash ${SCRIPT_PATH}
-    ${result}=    Run Process    bash    -c    ${command}
+    ${install_dep}=    Set Variable    pip install -r requirements.txt
+    ${run_with_browserstack}=    Set Variable    browserstack-sdk robot ./robot/tests
+
+    # Export env vars, install dependencies, then run Robot via BrowserStack SDK
+    ${command}=    Set Variable    export BROWSERSTACK_USERNAME="${username}" && export BROWSERSTACK_ACCESS_KEY="${key}" && export BROWSERSTACK_BUILD_IDENTIFIER="${build_id}" && ${install_dep} && ${run_with_browserstack}
+    ${result}=    Run Process    bash    -lc    ${command}
     ...    cwd=${CURDIR}
-    ...    timeout=${TIMEOUT}
     ...    stdout=${CURDIR}/robot_stdout.log
     ...    stderr=${CURDIR}/robot_stderr.log
-    ...    shell=True
     
     # Log output for debugging
     Log    STDOUT:\n${result.stdout}    console=True
