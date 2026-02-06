@@ -34,17 +34,27 @@ Execute BrowserStack Robot Local Tests
     ${random}=    Evaluate    __import__('random').randint(1000, 9999)
     ${build_id}=    Set Variable    build_${timestamp}_${random}
     Log    Build Identifier: ${build_id}    console=True
+
+    # Make env vars available to all subsequent Run Process calls
+    Set Environment Variable    BROWSERSTACK_USERNAME    ${username}
+    Set Environment Variable    BROWSERSTACK_ACCESS_KEY    ${key}
+    Set Environment Variable    BROWSERSTACK_BUILD_IDENTIFIER    ${build_id}
     
     # Ensure script has execute permissions
     Run    chmod +x ${SCRIPT_PATH}
     
-    ${install_dep}=    Set Variable    pip install -r requirements.txt
-    ${run_with_browserstack}=    Set Variable    browserstack-sdk robot ./robot/tests
-
-    # Export env vars, install dependencies, then run Robot via BrowserStack SDK
-    ${command}=    Set Variable    export BROWSERSTACK_USERNAME="${username}" && export BROWSERSTACK_ACCESS_KEY="${key}" && export BROWSERSTACK_BUILD_IDENTIFIER="${build_id}" && ${install_dep} && ${run_with_browserstack}
-    ${result}=    Run Process    bash    -lc    ${command}
+    Log    Installing dependencies (pip install -r requirements.txt)    console=True
+    ${install_result}=    Run Process    python    -m    pip    install    -r    requirements.txt
     ...    cwd=${CURDIR}
+    ...    timeout=${TIMEOUT}
+    ...    stdout=${CURDIR}/pip_stdout.log
+    ...    stderr=${CURDIR}/pip_stderr.log
+    Run Keyword If    ${install_result.rc} != 0    Fail    Dependency install failed with exit code ${install_result.rc}. Check pip_stdout.log / pip_stderr.log.
+
+    Log    Running BrowserStack SDK: browserstack-sdk robot ./robot/tests    console=True
+    ${result}=    Run Process    browserstack-sdk    robot    ./robot/tests
+    ...    cwd=${CURDIR}
+    ...    timeout=${TIMEOUT}
     ...    stdout=${CURDIR}/robot_stdout.log
     ...    stderr=${CURDIR}/robot_stderr.log
     
